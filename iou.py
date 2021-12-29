@@ -28,7 +28,23 @@ def calculate_iou(gt_bbox, pred_bbox):
     returns:
     - iou [float]: iou between 2 bboxes
     """
+    x1,x2,x3,x4 = gt_bbox[0] , gt_bbox[2] , pred_bbox[0] , pred_bbox[2]
+    y1,y2,y3,y4 = gt_bbox[1] , gt_bbox[3] , pred_bbox[1] , pred_bbox[3]
     ## IMPLEMENT THIS FUNCTION
+    if (x3 >= x2 or x4 <= x1) or (y3 >= y2 or y4 <= y1):
+        return 0
+
+    x = [x1,x2,x3,x4]
+    y = [y1,y2,y3,y4]
+    x.sort()
+    y.sort()
+    l_intsec , b_intsec = abs(x[1]-x[2]) , abs(y[1]-y[2])
+    
+    intersection = abs(l_intsec * b_intsec)
+
+    union = abs((x1 - x2) * (y1 - y2)) + abs((x3 - x4) * (y3 - y4)) - intersection
+    iou = intersection / union
+
     return iou
 
 
